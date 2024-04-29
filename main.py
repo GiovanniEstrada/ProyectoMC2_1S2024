@@ -9,21 +9,21 @@ def draw_graph(bfs_edges=None):
     if bfs_edges:
         pos = nx.spring_layout(G)
         nx.draw(G, pos=pos, ax=ax, with_labels=True)
-        nx.draw_networkx_edges(G, pos=pos, edgelist=bfs_edges, edge_color='r', ax=ax)
-        nx.draw_networkx_nodes(G, pos=pos, nodelist=[vertex_entry.get()]+[v for u, v in bfs_edges], node_color='r', ax=ax)
+        nx.draw_networkx_edges(G, pos=pos, edgelist=bfs_edges, edge_color='g', ax=ax)
+        nx.draw_networkx_nodes(G, pos=pos, nodelist=[startpos.get()]+[v for u, v in bfs_edges], node_color='g', ax=ax)
     else:
         nx.draw(G, ax=ax, with_labels=True)
         canvas.draw()
 
 def show_bfs():
     sorted(G.nodes())
-    bfs_edges=list(nx.bfs_edges(G,source=vertex_entry.get()))
+    bfs_edges=list(nx.bfs_edges(G,source=startpos.get()))
     draw_graph(bfs_edges)
     canvas.draw()
 
 def show_dfs():
     sorted(G.nodes())
-    bfs_edges=list(nx.dfs_edges(G,source=vertex_entry.get()))
+    bfs_edges=list(nx.dfs_edges(G,source=startpos.get()))
     draw_graph(bfs_edges)
     canvas.draw()
     
@@ -54,12 +54,17 @@ ax = figure.add_subplot(111)
 canvas=FigureCanvasTkAgg(figure, root)
 canvas.get_tk_widget().grid(row=6, column=0, columnspan=3)
 
+lblstartpos = tk.Label(root, text="Posición inicial")
+lblstartpos.grid(row=7, column=0)
+startpos = tk.Entry(root, width=30)
+startpos.grid(row=7, column=1, columnspan=3, pady=10, padx=10)
+
 draw_button = ttk.Button(root, text="Dibujar grafo", command=draw_graph)
-draw_button.grid(row=7, column=0, pady=10)
+draw_button.grid(row=8, column=0, pady=10)
 
 bfs_button = ttk.Button(root, text="Busq. anchura", command=show_bfs)
-bfs_button.grid(row=7, column=1, pady=10)
+bfs_button.grid(row=8, column=1, pady=10)
 
 dfs_button = ttk.Button(root, text="Busq. profundidad", command=show_dfs)
-dfs_button.grid(row=7, column=2, pady=10)
+dfs_button.grid(row=8, column=2, pady=10)
 root.mainloop()
